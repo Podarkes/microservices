@@ -11,7 +11,7 @@ public class SchedulerService {
 	public void run() {
 		while(true) {
 			try {
-				orderRepository.findOrders().stream().filter(order -> !order.isPayed())
+				orderRepository.findOrders().stream().filter(order -> !order.isPaid())
 					.forEach(order -> {
 						Notification notification = new Notification();
 						notification.setEmail(order.getCustomer().getEmail());

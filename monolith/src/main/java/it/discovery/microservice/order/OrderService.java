@@ -100,7 +100,7 @@ public class OrderService implements EventListener {
 	@org.springframework.context.event.EventListener
 	public void pay(PaymentSuccessEvent event) {
 		Order order = orderRepository.findById(event.getOrderId());
-		order.setPayed(true);
+		order.setPaid(true);
 		orderRepository.save(order);
 
 		Notification notification = new Notification();

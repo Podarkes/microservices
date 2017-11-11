@@ -17,7 +17,7 @@ public class Order {
 	
 	private Customer customer;
 	
-	private boolean payed;
+	private boolean paid;
 	
 	private boolean delivered;
 	
