@@ -4,6 +4,7 @@
 *.txt
 *.lst
 *.xml
+*.iml
 .settings
 target
 *.springBeans

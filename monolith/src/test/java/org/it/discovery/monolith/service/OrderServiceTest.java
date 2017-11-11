@@ -11,6 +11,8 @@ import it.discovery.microservice.customer.Customer;
 import it.discovery.microservice.order.OrderItem;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
 import it.discovery.microservice.MicroserviceApplication;
@@ -28,6 +30,9 @@ public class OrderServiceTest {
     @Autowired
     private EventBus eventBus;
 
+    @Autowired
+    private ApplicationEventMulticaster multicaster;
+
     @Test
     void findOrders_RepositoryEmpty_NothingReturned() {
         assertTrue(orderService.findOrders().isEmpty());
@@ -36,6 +41,13 @@ public class OrderServiceTest {
     @Test
     void complete_OrderIsValid_PaymentSuccessfull() throws InterruptedException {
         CountDownLatch latch = new CountDownLatch(1);
+        multicaster.addApplicationListener(event ->
+        {
+            if (event instanceof PaymentSuccessEvent) {
+                latch.countDown();
+                assertTrue(true);
+            }
+        });
 //        EventBus.getInstance().subscribe(event -> {
 //            if (event instanceof PaymentSuccessEvent) {
 //                latch.countDown();
@@ -49,7 +61,9 @@ public class OrderServiceTest {
         order.setCustomer(new Customer());
         orderService.save(order);
         orderService.complete(order.getId());
-        latch.await(10, TimeUnit.SECONDS);
+        latch.await(1, TimeUnit.SECONDS);
+        assertEquals(latch.getCount(), 0);
     }
+
 
 }
