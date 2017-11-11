@@ -27,12 +27,15 @@ public class OrderService implements EventListener {
 
 	private CustomerRepository customerRepository;
 
-	private NotificationService notificationService;
+	private final NotificationService notificationService;
 
 	private EventBus eventBus = EventBus.getInstance();
 
-	public OrderService(OrderRepository orderRepository) {
+	public OrderService(OrderRepository orderRepository,
+						NotificationService notificationService) {
 		this.orderRepository = orderRepository;
+		eventBus.subscribe(this);
+		this.notificationService = notificationService;
 	}
 
 	public void deliver(int orderId) {
@@ -83,6 +86,10 @@ public class OrderService implements EventListener {
 		}
 	}
 
+	public void save(Order order) {
+		orderRepository.save(order);
+	}
+
 	public List<Order> findOrders() {
 		return orderRepository.findOrders();
 	}
@@ -93,6 +100,8 @@ public class OrderService implements EventListener {
 			PaymentSuccessEvent paymentEvent = (PaymentSuccessEvent) event;
 
 			Order order = orderRepository.findById(paymentEvent.getOrderId());
+			order.setPayed(true);
+			orderRepository.save(order);
 
 			Notification notification = new Notification();
 			notification.setEmail(order.getCustomer().getEmail());

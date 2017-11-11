@@ -7,6 +7,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import it.discovery.microservice.book.Book;
+import it.discovery.microservice.customer.Customer;
 import it.discovery.microservice.order.OrderItem;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,8 @@ public class OrderServiceTest {
         Order order = new Order();
         OrderItem item = new OrderItem(new Book(), 1);
         order.addItem(item);
+        order.setCustomer(new Customer());
+        orderService.save(order);
         orderService.complete(order.getId());
         latch.await(10, TimeUnit.SECONDS);
     }

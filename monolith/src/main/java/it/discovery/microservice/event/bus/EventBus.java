@@ -5,7 +5,7 @@ import it.discovery.microservice.event.BaseEvent;
 public interface EventBus {
 	
 	public static EventBus getInstance() {
-		return SyncEventBus.INSTANCE;
+		return AsyncEventBus.INSTANCE;
 	}
 
 	void sendEvent(BaseEvent event);
