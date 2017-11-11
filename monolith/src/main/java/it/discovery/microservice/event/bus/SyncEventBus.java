@@ -8,7 +8,7 @@ import it.discovery.microservice.event.BaseEvent;
 public class SyncEventBus implements EventBus {
 
 	private final List<EventListener> listeners = new ArrayList<>();
-
+	
 	public static final EventBus INSTANCE = new SyncEventBus();
 
 	private SyncEventBus() {

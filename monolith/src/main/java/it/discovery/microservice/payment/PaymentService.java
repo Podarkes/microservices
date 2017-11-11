@@ -1,22 +1,43 @@
 package it.discovery.microservice.payment;
 
-import it.discovery.microservice.order.Order;
-import it.discovery.microservice.order.OrderRepository;
+import org.springframework.stereotype.Service;
 
-public class PaymentService {
-	private OrderRepository orderRepository;
+import it.discovery.microservice.event.BaseEvent;
+import it.discovery.microservice.event.OrderCompletedEvent;
+import it.discovery.microservice.event.PaymentSuccessEvent;
+import it.discovery.microservice.event.bus.EventBus;
+import it.discovery.microservice.event.bus.EventListener;
+
+@Service
+public class PaymentService implements EventListener {
+	private EventBus eventBus = EventBus.getInstance();
 	
-	public void pay(Order order) {
-		System.out.println("Charging " + order.getAmount() + " from credit card " + order.getCustomer().getCardNumber()); 
+	public PaymentService() {
+		eventBus.subscribe(this);
+	}
+
+	public void pay(OrderCompletedEvent event) {
+		System.out.println("Charging " + event.getAmount()
+		+ " from credit card " + event.getCardNumber()); 
 		
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		order.setPayed(true);
-		orderRepository.save(order);
+		
+		eventBus.sendEvent(
+				new PaymentSuccessEvent(event.getOrderId()));
 		System.out.println("Charging completed");
+	}
+
+	@Override
+	public void accept(BaseEvent event) {
+		if(event instanceof OrderCompletedEvent) {
+			OrderCompletedEvent completedEvent = 
+					(OrderCompletedEvent) event;
+			pay(completedEvent);
+		}
 	}
 
 }

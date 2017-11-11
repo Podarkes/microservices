@@ -8,25 +8,29 @@ import org.springframework.stereotype.Service;
 import it.discovery.microservice.book.BookRepository;
 import it.discovery.microservice.customer.CustomerRepository;
 import it.discovery.microservice.delivery.DeliveryService;
+import it.discovery.microservice.event.BaseEvent;
+import it.discovery.microservice.event.OrderCompletedEvent;
+import it.discovery.microservice.event.PaymentSuccessEvent;
+import it.discovery.microservice.event.bus.EventBus;
+import it.discovery.microservice.event.bus.EventListener;
 import it.discovery.microservice.notification.Notification;
 import it.discovery.microservice.notification.NotificationService;
-import it.discovery.microservice.payment.PaymentService;
 
 @Service
-public class OrderService {
+public class OrderService implements EventListener {
 
 	private final OrderRepository orderRepository;
 
 	private BookRepository bookRepository;
 
 	private DeliveryService deliveryService;
-	
+
 	private CustomerRepository customerRepository;
-	
+
 	private NotificationService notificationService;
-	
-	private PaymentService paymentService;
-	
+
+	private EventBus eventBus = EventBus.getInstance();
+
 	public OrderService(OrderRepository orderRepository) {
 		this.orderRepository = orderRepository;
 	}
@@ -40,18 +44,9 @@ public class OrderService {
 
 	public void complete(int orderId) {
 		Order order = orderRepository.findById(orderId);
-		if (order != null) {			
-			paymentService.pay(order);
-			
-			orderRepository.save(order);
-			
-			Notification notification = new Notification();
-			notification.setEmail(order.getCustomer().getEmail());
-			notification.setRecipient(order.getCustomer().getName());
-			notification.setTitle("Order " + order.getId() + " is completed");
-			notification.setText("Hi/n. Your order has been completed");
-			
-			notificationService.sendNotification(notification);
+		if (order != null) {
+			eventBus.sendEvent(
+					new OrderCompletedEvent(order.getId(), order.getCustomer().getCardNumber(), order.getAmount()));
 		}
 	}
 
@@ -60,13 +55,13 @@ public class OrderService {
 		if (order != null) {
 			order.setCancelled(true);
 			orderRepository.save(order);
-			
+
 			Notification notification = new Notification();
 			notification.setEmail(order.getCustomer().getEmail());
 			notification.setRecipient(order.getCustomer().getName());
 			notification.setTitle("Order " + order.getId() + " is canceled");
 			notification.setText("Hi/n. Your order has been canceled");
-			
+
 			notificationService.sendNotification(notification);
 		}
 	}
@@ -87,9 +82,28 @@ public class OrderService {
 			orderRepository.save(order);
 		}
 	}
-	
+
 	public List<Order> findOrders() {
 		return orderRepository.findOrders();
+	}
+
+	@Override
+	public void accept(BaseEvent event) {
+		if (event instanceof PaymentSuccessEvent) {
+			PaymentSuccessEvent paymentEvent = (PaymentSuccessEvent) event;
+
+			Order order = orderRepository.findById(paymentEvent.getOrderId());
+
+			Notification notification = new Notification();
+			notification.setEmail(order.getCustomer().getEmail());
+			notification.setRecipient(order.getCustomer().getName());
+			notification.setTitle("Order " + order.getId() + " is completed");
+			notification.setText("Hi/n. Your order has been completed");
+
+			notificationService.sendNotification(notification);
+
+		}
+
 	}
 
 }
