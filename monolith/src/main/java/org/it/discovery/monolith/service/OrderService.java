@@ -9,7 +9,9 @@ import org.it.discovery.monolith.domain.OrderItem;
 import org.it.discovery.monolith.repository.BookRepository;
 import org.it.discovery.monolith.repository.CustomerRepository;
 import org.it.discovery.monolith.repository.OrderRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class OrderService {
 
 	private OrderRepository orderRepository;
@@ -23,6 +25,10 @@ public class OrderService {
 	private NotificationService notificationService;
 	
 	private PaymentService paymentService;
+	
+	public OrderService(OrderRepository orderRepository) {
+		this.orderRepository = orderRepository;
+	}
 
 	public void deliver(int orderId) {
 		Order order = orderRepository.findById(orderId);
