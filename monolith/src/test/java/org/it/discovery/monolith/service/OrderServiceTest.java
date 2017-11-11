@@ -25,6 +25,9 @@ public class OrderServiceTest {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private EventBus eventBus;
+
     @Test
     void findOrders_RepositoryEmpty_NothingReturned() {
         assertTrue(orderService.findOrders().isEmpty());
@@ -33,12 +36,12 @@ public class OrderServiceTest {
     @Test
     void complete_OrderIsValid_PaymentSuccessfull() throws InterruptedException {
         CountDownLatch latch = new CountDownLatch(1);
-        EventBus.getInstance().subscribe(event -> {
-            if (event instanceof PaymentSuccessEvent) {
-                latch.countDown();
-                assertTrue(true);
-            }
-        });
+//        EventBus.getInstance().subscribe(event -> {
+//            if (event instanceof PaymentSuccessEvent) {
+//                latch.countDown();
+//                assertTrue(true);
+//            }
+//        });
 
         Order order = new Order();
         OrderItem item = new OrderItem(new Book(), 1);

@@ -29,11 +29,14 @@ public class OrderService implements EventListener {
 
 	private final NotificationService notificationService;
 
-	private EventBus eventBus = EventBus.getInstance();
+	//private EventBus eventBus = EventBus.getInstance();
+	private EventBus eventBus;
 
 	public OrderService(OrderRepository orderRepository,
-						NotificationService notificationService) {
+						NotificationService notificationService,
+						EventBus eventBus) {
 		this.orderRepository = orderRepository;
+		this.eventBus = eventBus;
 		eventBus.subscribe(this);
 		this.notificationService = notificationService;
 	}
@@ -94,23 +97,26 @@ public class OrderService implements EventListener {
 		return orderRepository.findOrders();
 	}
 
+	@org.springframework.context.event.EventListener
+	public void pay(PaymentSuccessEvent event) {
+		Order order = orderRepository.findById(event.getOrderId());
+		order.setPayed(true);
+		orderRepository.save(order);
+
+		Notification notification = new Notification();
+		notification.setEmail(order.getCustomer().getEmail());
+		notification.setRecipient(order.getCustomer().getName());
+		notification.setTitle("Order " + order.getId() + " is completed");
+		notification.setText("Hi/n. Your order has been completed");
+
+		notificationService.sendNotification(notification);
+	}
 	@Override
 	public void accept(BaseEvent event) {
 		if (event instanceof PaymentSuccessEvent) {
 			PaymentSuccessEvent paymentEvent = (PaymentSuccessEvent) event;
 
-			Order order = orderRepository.findById(paymentEvent.getOrderId());
-			order.setPayed(true);
-			orderRepository.save(order);
-
-			Notification notification = new Notification();
-			notification.setEmail(order.getCustomer().getEmail());
-			notification.setRecipient(order.getCustomer().getName());
-			notification.setTitle("Order " + order.getId() + " is completed");
-			notification.setText("Hi/n. Your order has been completed");
-
-			notificationService.sendNotification(notification);
-
+			pay(paymentEvent);
 		}
 
 	}

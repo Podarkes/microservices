@@ -3,6 +3,7 @@
 *.project
 *.txt
 *.lst
+*.xml
 .settings
 target
 *.springBeans

@@ -10,12 +10,15 @@ import it.discovery.microservice.event.bus.EventListener;
 
 @Service
 public class PaymentService implements EventListener {
-	private EventBus eventBus = EventBus.getInstance();
+	//private EventBus eventBus = EventBus.getInstance();
+	private EventBus eventBus;
 	
-	public PaymentService() {
+	public PaymentService(EventBus eventBus) {
+		this.eventBus = eventBus;
 		eventBus.subscribe(this);
 	}
 
+	@org.springframework.context.event.EventListener
 	public void pay(OrderCompletedEvent event) {
 		System.out.println("Charging " + event.getAmount()
 		+ " from credit card " + event.getCardNumber()); 
