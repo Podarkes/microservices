@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import lombok.Value;
 
 @Value
-public class OrderDeliveredEvent {
+public class OrderDeliveredEvent implements BaseEvent{
 	private int orderId;
 
 	private LocalDateTime deliveryDate;
