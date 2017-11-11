@@ -1,9 +1,10 @@
-package org.it.discovery.monolith.domain;
+package it.discovery.microservice.order;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.discovery.microservice.customer.Customer;
 import lombok.Data;
 
 @Data

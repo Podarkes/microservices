@@ -1,7 +1,4 @@
-package org.it.discovery.monolith.service;
-
-import org.it.discovery.monolith.domain.Notification;
-import org.it.discovery.monolith.repository.NotificationRepository;
+package it.discovery.microservice.notification;
 
 public class NotificationService {
 	private NotificationRepository notificationRepository; 

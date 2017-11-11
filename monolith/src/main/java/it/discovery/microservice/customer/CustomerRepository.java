@@ -1,8 +1,6 @@
-package org.it.discovery.monolith.repository;
+package it.discovery.microservice.customer;
 
 import java.util.List;
-
-import org.it.discovery.monolith.domain.Customer;
 
 public interface CustomerRepository {
 

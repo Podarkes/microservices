@@ -2,12 +2,14 @@ package org.it.discovery.monolith.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.it.discovery.monolith.MonolithApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
-@SpringJUnitWebConfig(classes=MonolithApplication.class)
+import it.discovery.microservice.MicroserviceApplication;
+import it.discovery.microservice.order.OrderService;
+
+@SpringJUnitWebConfig(classes=MicroserviceApplication.class)
 public class OrderServiceTest {
 	
 	@Autowired

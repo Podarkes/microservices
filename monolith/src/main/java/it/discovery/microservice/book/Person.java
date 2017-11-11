@@ -1,4 +1,4 @@
-package org.it.discovery.monolith.domain;
+package it.discovery.microservice.book;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,5 +16,4 @@ public class Person {
 	private List<Book> books;
 	
 	private LocalDate birthDate;
-	
 }

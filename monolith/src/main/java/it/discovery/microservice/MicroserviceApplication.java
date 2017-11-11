@@ -1,11 +1,13 @@
-package org.it.discovery.monolith;
+package it.discovery.microservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MonolithApplication {
+public class MicroserviceApplication {
+
 	public static void main(String[] args) {
-		SpringApplication.run(MonolithApplication.class, args);
+		SpringApplication.run(MicroserviceApplication.class, args);
 	}
+
 }

@@ -1,20 +1,21 @@
-package org.it.discovery.monolith.service;
+package it.discovery.microservice.order;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.it.discovery.monolith.domain.Notification;
-import org.it.discovery.monolith.domain.Order;
-import org.it.discovery.monolith.domain.OrderItem;
-import org.it.discovery.monolith.repository.BookRepository;
-import org.it.discovery.monolith.repository.CustomerRepository;
-import org.it.discovery.monolith.repository.OrderRepository;
 import org.springframework.stereotype.Service;
+
+import it.discovery.microservice.book.BookRepository;
+import it.discovery.microservice.customer.CustomerRepository;
+import it.discovery.microservice.delivery.DeliveryService;
+import it.discovery.microservice.notification.Notification;
+import it.discovery.microservice.notification.NotificationService;
+import it.discovery.microservice.payment.PaymentService;
 
 @Service
 public class OrderService {
 
-	private OrderRepository orderRepository;
+	private final OrderRepository orderRepository;
 
 	private BookRepository bookRepository;
 

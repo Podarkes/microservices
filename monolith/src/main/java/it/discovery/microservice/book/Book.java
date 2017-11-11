@@ -1,4 +1,4 @@
-package org.it.discovery.monolith.domain;
+package it.discovery.microservice.book;
 
 import lombok.Data;
 

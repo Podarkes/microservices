@@ -1,12 +1,13 @@
-package org.it.discovery.monolith.repository;
+package it.discovery.microservice.customer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.it.discovery.monolith.domain.Customer;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class InMemoryCustomerRepository implements CustomerRepository {
 
 	private final Map<Integer, Customer> customers = new HashMap<>();

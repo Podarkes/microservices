@@ -1,9 +1,7 @@
-package org.it.discovery.monolith.repository;
+package it.discovery.microservice.notification;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.it.discovery.monolith.domain.Notification;
 
 public class InMemoryNotificationRepository implements
 NotificationRepository{

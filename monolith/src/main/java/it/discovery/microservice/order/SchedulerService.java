@@ -1,7 +1,7 @@
-package org.it.discovery.monolith.service;
+package it.discovery.microservice.order;
 
-import org.it.discovery.monolith.domain.Notification;
-import org.it.discovery.monolith.repository.OrderRepository;
+import it.discovery.microservice.notification.Notification;
+import it.discovery.microservice.notification.NotificationService;
 
 public class SchedulerService {
 	private OrderRepository orderRepository;

@@ -1,7 +1,7 @@
-package org.it.discovery.monolith.service;
+package it.discovery.microservice.payment;
 
-import org.it.discovery.monolith.domain.Order;
-import org.it.discovery.monolith.repository.OrderRepository;
+import it.discovery.microservice.order.Order;
+import it.discovery.microservice.order.OrderRepository;
 
 public class PaymentService {
 	private OrderRepository orderRepository;

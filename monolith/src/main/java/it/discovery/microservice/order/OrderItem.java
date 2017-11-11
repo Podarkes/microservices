@@ -1,5 +1,6 @@
-package org.it.discovery.monolith.domain;
+package it.discovery.microservice.order;
 
+import it.discovery.microservice.book.Book;
 import lombok.Data;
 
 @Data

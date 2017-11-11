@@ -1,7 +1,6 @@
-package org.it.discovery.monolith.repository;
+package it.discovery.microservice.book;
 
 import java.util.List;
-import org.it.discovery.monolith.domain.Book;
 
 public interface BookRepository {
 	

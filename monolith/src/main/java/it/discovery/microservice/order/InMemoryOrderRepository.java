@@ -1,11 +1,10 @@
-package org.it.discovery.monolith.repository;
+package it.discovery.microservice.order;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.it.discovery.monolith.domain.Order;
 import org.springframework.stereotype.Repository;
 
 @Repository

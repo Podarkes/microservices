@@ -1,7 +1,8 @@
-package org.it.discovery.monolith.domain;
+package it.discovery.microservice.customer;
 
 import java.util.List;
 
+import it.discovery.microservice.order.Order;
 import lombok.Getter;
 import lombok.Setter;
 

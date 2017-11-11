@@ -1,4 +1,8 @@
 *.class
 *.classpath
 *.project
+*.txt
+*.lst
 .settings
+target
+*.springBeans

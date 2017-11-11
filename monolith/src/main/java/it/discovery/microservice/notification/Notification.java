@@ -1,4 +1,4 @@
-package org.it.discovery.monolith.domain;
+package it.discovery.microservice.notification;
 
 import java.time.LocalDateTime;
 
